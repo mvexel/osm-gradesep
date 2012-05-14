@@ -9,7 +9,7 @@ t0 = time.time()
 
 infiledir = '/osm/planet/us/states-and-counties-2010-hardcut/us/' # directory that has the inp
 outdir = '/osm/out/gradesep/' # directory for the output shapefiles
-sqldir = '/osm/sql/gradesep/' # directory containing the  
+sqldir = 'sql/' # directory containing the  
 osmosis = '/osm/software/osmosis-latest/bin/osmosis' # path to osmosis command
 schema = 'public' # schema name to use, requires 'SET search_path TO :schema;' in ~/.psqlrc
 ogr2ogr = 'ogr2ogr' # path to ogr2ogr command
