@@ -19,9 +19,9 @@ WHERE
 	ST_Intersects(a.linestring, b.linestring) 
 	AND
 	(
-		(NOT a.tags?'bridge' OR a.tags->'bridge' NOT IN ('yes','y','1','true'))
+		(NOT a.tags?'bridge' OR a.tags->'bridge' NOT IN ('yes','y','1','true','viaduct'))
 		AND
-		(NOT b.tags?'bridge' OR b.tags->'bridge' NOT IN ('yes','y','1','true'))
+		(NOT b.tags?'bridge' OR b.tags->'bridge' NOT IN ('yes','y','1','true','viaduct'))
 		AND
 		(NOT a.tags?'tunnel' OR a.tags->'tunnel' NOT IN ('yes','y','1','true'))
 		AND

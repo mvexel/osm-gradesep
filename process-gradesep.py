@@ -71,7 +71,7 @@ for state in states:
 		m.write(p.communicate()[0])
 #	t+=1
 	m.write('outputting shapefile %s' % (shapename))
-	cmd = '%s -f "ESRI Shapefile" -nln %s %s PG:"dbname=%s user=%s password=%s" candidates' % (ogr2ogr, shapename, outdir, dbname, dbuser, dbpassword)
+	cmd = '%s -f "ESRI Shapefile" -overwrite -nln %s %s PG:"dbname=%s user=%s password=%s" candidates' % (ogr2ogr, shapename, outdir, dbname, dbuser, dbpassword)
 	p = subprocess.Popen(cmd, shell=True, stderr = subprocess.STDOUT, stdout=subprocess.PIPE)
 	m.write(p.communicate()[0])
 	m.write('done with %s!' % (state[2]))

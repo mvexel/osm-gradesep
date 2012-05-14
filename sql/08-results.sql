@@ -1,27 +1,30 @@
-DROP TABLE IF EXISTS tmp_hasclosenbi;
+DROP TABLE IF EXISTS tmp_results;
 CREATE TABLE
-	tmp_hasclosenbi 
+	tmp_results
 AS 
 	SELECT 
 		candidates.id, 
-		SUM(intersections.closenbicount) > 0 AS hasclosenbi 
-FROM
-	candidates, 
-	intersections 
-WHERE 
-	intersections.otherway_osmid = candidates.id 
-GROUP BY candidates.id;
+		SUM(intersections.closenbicount) > 0 AS hasclosenbi,
+		SUM(intersections.hasnode::integer) AS sharednodecnt
+	FROM
+		candidates, 
+		intersections 
+	WHERE 
+		intersections.otherway_osmid = candidates.id 
+	GROUP BY candidates.id;
 
 ALTER TABLE 
 	candidates
-ADD COLUMN
-	closenbi boolean;
+--ADD COLUMN
+--	closenbi boolean,
+ADD COLUMN 
+	sharednodecnt smallint;
 	
 UPDATE
 	candidates
 SET
-	closenbi = tmp_hasclosenbi.hasclosenbi
+	(closenbi, sharednodecnt) = (tmp_results.hasclosenbi, tmp_results.sharednodecnt)
 FROM
-	tmp_hasclosenbi
+	tmp_results
 WHERE
-	tmp_hasclosenbi.id = candidates.id;
+	tmp_results.id = candidates.id;
