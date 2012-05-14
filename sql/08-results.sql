@@ -13,10 +13,17 @@ AS
 		intersections.otherway_osmid = candidates.id 
 	GROUP BY candidates.id;
 
+ALTER TABLE
+	candidates
+DROP COLUMN IF EXISTS
+	closenbi,
+DROP COLUMN IF EXISTS
+	sharednodecnt;
+	
 ALTER TABLE 
 	candidates
---ADD COLUMN
---	closenbi boolean,
+ADD COLUMN
+	closenbi boolean,
 ADD COLUMN 
 	sharednodecnt smallint;
 	
