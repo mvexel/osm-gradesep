@@ -14,6 +14,7 @@ osmosis = '/osm/software/osmosis-latest/bin/osmosis' # path to osmosis command
 schema = 'public' # schema name to use, requires 'SET search_path TO :schema;' in ~/.psqlrc
 ogr2ogr = 'ogr2ogr' # path to ogr2ogr command
 logfile = 'log.txt' # the log file will be written in the outdir
+debug = True # if True, then only one run will be done, with State 01 = Alabama
 
 dbname = 'vermont'
 dbuser = 'osm'
@@ -43,10 +44,10 @@ class msg:
 m = msg(os.path.join(outdir,logfile))
 m.write('starting')
 states = csv.reader(open('states.csv','rb'))
-#t=0
+t=0 #debug
 for state in states:
-#	if t==1:
-#		sys.exit(0)
+	if debug and t==1:
+		sys.exit(0)
 	datafilename = 'state_' + state[0] + '.osm.pbf'
 	datafilepath = os.path.join(infiledir,datafilename)
 	shapename = 'candidate_%s' % (state[0])
@@ -69,7 +70,7 @@ for state in states:
 		cmd = 'psql -d %s -U %s -v schema=%s -f %s' % (dbname, dbuser, schema, queryfile)
 		p = subprocess.Popen(cmd, shell=True, stderr = subprocess.STDOUT, stdout=subprocess.PIPE)
 		m.write(p.communicate()[0])
-#	t+=1
+	t+=1 #debug
 	m.write('outputting shapefile %s' % (shapename))
 	cmd = '%s -f "ESRI Shapefile" -overwrite -nln %s %s PG:"dbname=%s user=%s password=%s" candidates' % (ogr2ogr, shapename, outdir, dbname, dbuser, dbpassword)
 	p = subprocess.Popen(cmd, shell=True, stderr = subprocess.STDOUT, stdout=subprocess.PIPE)
