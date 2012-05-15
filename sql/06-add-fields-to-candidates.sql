@@ -27,11 +27,11 @@ WHERE
 UPDATE
 	candidates 
 SET
-	angle = angletmp.angle 
+	angle = angles.angle 
 FROM 
-	angletmp 
+	angles 
 WHERE 
-	angletmp.otherway_id = candidates.id;
+	angles.otherway_id = candidates.id;
 
 UPDATE 
 	candidates 

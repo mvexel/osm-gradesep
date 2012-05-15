@@ -7,7 +7,7 @@ AS
 	FROM 
 		ways 
 	WHERE 
-		tags->'highway' NOT IN ('motorway','motorway_link');
+		tags->'highway' NOT IN ('motorway','motorway_link', 'proposed');
 
 
 DROP TABLE IF EXISTS motorways;

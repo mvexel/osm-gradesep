@@ -4,16 +4,23 @@ CREATE TABLE
 AS
 (
 	SELECT
-		ST_Transform
+		ST_PointFromText
 		(
-			(ST_Dump
-			(	
-					ST_Intersection
-					(
-						a.linestring, 
-						b.linestring
-					)
-			)).geom,
+			ST_AsText
+			(
+				ST_Transform
+				(
+					(ST_DumpPoints
+					(	
+							ST_Intersection
+							(
+								a.linestring, 
+								b.linestring
+							)
+					)).geom,
+					3785
+				)
+			),
 			3785
 		)
 		AS intersection,
