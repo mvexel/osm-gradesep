@@ -87,7 +87,7 @@ for state in states:
 	p = subprocess.Popen(cmd, shell=True, stderr = subprocess.STDOUT, stdout=subprocess.PIPE)
 	m.write(p.communicate()[0])
 	m.write('outputting offending nodes to %s' % (csvname))
-	cmd = 'psql -d %s -U %s -v schema=%s -c "COPY (SELECT explode_array(osmnodes) FROM intersections) TO \'%s\' WITH CSV"' % (dbname, dbuser, schema, os.path.join(outdir, csvname))
+	cmd = 'psql -d %s -U %s -v schema=%s -c "COPY (SELECT explode_array(osmnodes) as osmnodeid, gradesep, closenbi FROM intersections INNER JOIN candidates ON intersections.otherway_osmid = candidates.id ORDER BY gradesep) TO \'%s\' WITH CSV HEADER"' % (dbname, dbuser, schema, os.path.join(outdir, csvname))
 	p = subprocess.Popen(cmd, shell=True, stderr = subprocess.STDOUT, stdout=subprocess.PIPE)
 	m.write(p.communicate()[0])
 	m.write('done with %s!' % (state[2]))
