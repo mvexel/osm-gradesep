@@ -1,45 +1,48 @@
+ALTER TABLE candidates
+DROP COLUMN IF EXISTS touches,
+DROP COLUMN IF EXISTS angle,
+DROP COLUMN IF EXISTS gradesep;
+
 ALTER TABLE 
-	candidates 
+    candidates 
 ADD COLUMN 
-	touches smallint,
+    touches smallint,
 ADD COLUMN 
-	angle decimal,
+    angle decimal,
 ADD COLUMN 
-	gradesep boolean;
-
-
+    gradesep boolean;
 
 UPDATE 
-	candidates 
+    candidates 
 SET 
-	(touches, angle, gradesep) = (0, 0, false);
+    (touches, angle, gradesep) = (0, 0, false);
 
 UPDATE 
-	candidates 
+    candidates 
 SET 
-	touches = touches.touches 
+    touches = touches.touches 
 FROM 
-	touches 
+    touches 
 WHERE 
-	touches.way_id = id;
+    touches.way_id = id;
 
 
 UPDATE
-	candidates 
+    candidates 
 SET
-	angle = angles.angle 
+    angle = angles.angle 
 FROM 
-	angles 
+    angles 
 WHERE 
-	angles.otherway_id = candidates.id;
+    angles.otherway_id = candidates.id;
 
 UPDATE 
-	candidates 
+    candidates 
 SET 
-	gradesep = true 
+    gradesep = true 
 WHERE 
-	touches = 0 
-	-- AND 
-	-- intersects = 2 
-	AND angle > 30 
-	AND angle < 150;
+    touches = 0 
+    -- AND 
+    -- intersects = 2 
+    AND angle > 30 
+    AND angle < 150;
