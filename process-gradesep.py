@@ -9,10 +9,10 @@ import shutil
 
 t0 = time.time()
 
-infiledir = '/osm/planet/us/states-and-counties-2010-hardcut/us/' # directory that has the inp
-outdir = '/osm/out/gradesep/' # directory for the output shapefiles
-sqldir = 'sql/' # directory containing the  
+infiledir = '/osm/planet/us/us/' # directory that has the input files
+outdir = '/osm/out/gradesep/1207/' # directory for the output shapefiles
 osmosis = '/osm/software/osmosis-latest/bin/osmosis' # path to osmosis command
+sqldir = 'sql/' # directory containing the sql scripts, this should be fine
 schema = 'public' # schema name to use, requires 'SET search_path TO :schema;' in ~/.psqlrc
 ogr2ogr = 'ogr2ogr' # path to ogr2ogr command
 logfile = 'log.txt' # the log file will be written in the outdir
@@ -44,6 +44,13 @@ class msg:
 			print('%f\t%s' % (t1,line))
 		sys.stdout.flush()
 		
+if not os.path.exists(outdir):
+    try:
+        os.mkdir(outdir)
+    except IOError:
+        print('the directory %s (outdir) did not exist and could not be created.')
+        exit(1)
+
 m = msg(os.path.join(outdir,logfile))
 m.write('starting')
 states = csv.reader(open('states.csv','rb'))
